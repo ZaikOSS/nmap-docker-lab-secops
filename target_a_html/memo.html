@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Internal Memo - SECOPS Lab</title>
+  <style>
+    :root {
+      --bg1: #1e3c72;
+      --bg2: #2a5298;
+      --card: #fff; /* White background for the memo */
+      --text: #333;
+      --error: #cc0000;
+    }
+    body {
+      font-family: 'Times New Roman', Times, serif; /* Formal font for memo */
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      color: #fff;
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 3rem 1rem;
+    }
+    .memo-container {
+      background: var(--card);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 2rem 3rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+      width: min(700px, 90%);
+    }
+    h2 { 
+      text-align: center; 
+      color: var(--bg2); 
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 0.5rem;
+    }
+    .header-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      border-bottom: 1px dashed #ccc;
+      padding-bottom: 10px;
+    }
+    .content p {
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    .signature {
+      margin-top: 3rem;
+      text-align: right;
+      font-style: italic;
+    }
+    .highlight {
+        color: var(--error);
+        font-weight: bold;
+    }
+    .back-link {
+        margin-top: 2rem;
+        font-size: 1.1rem;
+    }
+    .back-link a {
+        color: var(--accent);
+        text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="memo-container">
+    <h2>INTERNAL MEMORANDUM</h2>
+    
+    <div class="header-info">
+      <span>**TO**: Lead Developer, Project Zaikos</span>
+      <span>**FROM**: Alex Thompson, Operations Manager</span>
+      <span>**DATE**: 2025-10-03</span>
+    </div>
+
+    <div class="content">
+      <p>I am writing to address the alarming discovery of unmanaged, persistent connections running in our production environment for debugging purposes.</p>
+      
+      <p>Specifically, we have found that you are still relying on <span class="highlight">Netcat (nc)</span> to monitor file transfers and internal service status. This is a severe security violation. We have our own secure logging and monitoring tools that must be used.</p>
+      
+      <p>Effective immediately, <span class="highlight">you must stop using Netcat</span>. Furthermore, the practice of leaving debugging ports open, especially **port 10991**, must cease. While I acknowledge the service is running on that port, we need to implement proper authentication and logging protocols rather than relying on an unmanaged, custom file transfer tool.</p>
+      
+      <p>Please confirm that this is corrected by end of day. Security is paramount.</p>
+    </div>
+
+    <div class="signature">
+      <p>Regards,</p>
+      <p>Alex Thompson</p>
+      <p>Operations Manager</p>
+    </div>
+  </div>
+
+  <div class="back-link">
+    <a href="index.html">&leftarrow; Return to Card Codes Page</a>
+  </div>
+</body>
+</html>

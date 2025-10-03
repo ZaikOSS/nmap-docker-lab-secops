@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  target_a_http:
+    image: nginx:stable-alpine
+    container_name: target_a_http
+    volumes:
+      - ./target_a_html:/usr/share/nginx/html:ro
+    ports:
+      - "8081:80"
+
+  target_b_banner:
+    build:
+      context: ./target_b
+    container_name: target_b_banner
+    ports:
+      - "10991:10991"
+
+  target_c_sshlike:
+    build:
+      context: ./target_c
+    container_name: target_c_sshlike
+    ports:
+      - "22222:22222"

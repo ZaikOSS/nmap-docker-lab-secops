@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Google Play Card Codes - SECOPS Lab</title>
+  <style>
+    :root {
+      --bg1: #1e3c72;
+      --bg2: #2a5298;
+      --card: rgba(255,255,255,0.08);
+      --accent: #ffd700;
+      --muted: #dfe7ff;
+    }
+    body {
+      font-family: Inter, Arial, sans-serif;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      color: #fff;
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 3rem;
+    }
+    header {
+      padding: 2rem 1rem 1rem; /* Reduced bottom padding */
+      text-align: center;
+    }
+    h1 { margin: 0; font-size: 2.2rem; text-shadow: 0 4px 18px rgba(0,0,0,0.4); }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      width: min(1200px, 96%);
+      padding: 1rem;
+    }
+    .card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(0,0,0,0.35); }
+    .title { font-weight: 700; font-size: 1.2rem; color: var(--accent); margin-bottom: .25rem; }
+    .body { margin-top: .5rem; color: #f3f7ff; font-size: 1rem; }
+    .muted-info { color: #cfd8ff; font-size: .9rem; opacity: .8; }
+    .actions { margin-top: 1rem; display:flex; gap:.75rem; }
+    button {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      padding: .6rem 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight:600;
+      transition: background .2s;
+    }
+    button:hover:not(:disabled) { background: rgba(255,255,255,0.2); }
+    button:disabled { cursor: not-allowed; opacity: 0.6; }
+    
+    .code-area { 
+      font-size:.9rem; 
+      color: #e6f0ff; 
+      margin-top:.8rem; 
+      word-break:break-all;
+      background: rgba(0,0,0,0.2);
+      padding: .5rem;
+      border-radius: 6px;
+      display: none;
+    }
+
+    /* New styles for the feedback link */
+    .feedback-nav {
+        margin-bottom: 2rem;
+        padding: .5rem 1rem;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.1);
+        text-align: center;
+    }
+    .feedback-nav a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: color .2s;
+    }
+    .feedback-nav a:hover {
+        color: #fff;
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Available Google Play Cards</h1>
+    <p class="muted-info">These codes were found in a lost wallet. Click "Show Code" to reveal the unique encrypted token.</p>
+     <!--
+
+  Credentials for auth targets:
+
+  dXNlcjpzZWNvcHM=
+
+  cGFzczp6YWlrb3MxMjM=
+
+  -->
+    </header>
+
+  <div class="feedback-nav">
+    <a href="memo.html" title="Click to view recent developer feedback and change logs. (Updated daily)">
+      Internal Feedback System
+    </a>
+  </div>
+
+  <main class="grid" id="card-grid">
+    </main>
+
+  <footer>Made with ❤️ by Zaikos</footer>
+
+  <script>
+    // Define the cards with their titles, descriptions, and Base64 codes
+    const cardsData = [
+      {
+        title: "$5 Gift Card",
+        info: "A small value card. Might be expired.",
+        code: "RGlzdHJhY3RvcjE=", // Decodes to "Distractor1"
+      },
+      {
+        title: "$100 Gift Card",
+        info: "High-value card. Check the source for redemption instructions.",
+        code: "RGlzdHJhY3RvcjQ=" // Decodes to "Distractor4"
+      },
+      {
+        title: "Limited Edition Flag Card 🚩",
+        info: "A rare card. The code is the Flag you are looking for.",
+        code: "U0VDT1BTMXtubWFwLWlzLWZ1bn0=" 
+      },
+      {
+        title: "Used $25 Gift Card",
+        info: "This one was marked as used. It might still contain useful data.",
+        code: "RGlzdHJhY3RvcjM=", // Decodes to "Distractor3"
+      },
+      {
+        title: "Beta Test Card",
+        info: "A special access code for the beta version.",
+        code: "RGlzdHJhY3RvcjI=", // Decodes to "Distractor2"
+      },
+    ];
+
+    const cardGrid = document.getElementById('card-grid');
+
+    // Function to render all cards
+    function renderCards() {
+        cardsData.forEach((card, index) => {
+            const cardElement = document.createElement('div');
+            cardElement.className = 'card';
+            
+            // Check if code is missing to disable the show button (though all are present now)
+            const showDisabled = card.code === "" ? "disabled" : "";
+            
+            cardElement.innerHTML = `
+                <div>
+                    <div class="title">${card.title}</div>
+                    <div class="muted-info">${card.info}</div>
+                </div>
+                <div class="actions">
+                    <button class="showBtn" data-index="${index}" ${showDisabled}>Show Code</button>
+                    <button class="copyBtn" data-code="${card.code}" disabled>Copy</button>
+                </div>
+                <div class="code-area" id="code-area-${index}"></div>
+            `;
+            
+            cardGrid.appendChild(cardElement);
+        });
+
+        // Add event listeners after cards are in the DOM
+        document.querySelectorAll('.showBtn').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const index = event.target.dataset.index;
+                const codeArea = document.getElementById(`code-area-${index}`);
+                const code = cardsData[index].code;
+                const copyButton = event.target.nextElementSibling; // The Copy button
+
+                codeArea.textContent = code;
+                codeArea.style.display = 'block';
+                event.target.disabled = true; // Disable "Show" after revealing
+                event.target.textContent = 'Code Shown';
+                copyButton.disabled = false; // Enable "Copy"
+            });
+        });
+        
+        document.querySelectorAll('.copyBtn').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const code = event.target.dataset.code;
+                navigator.clipboard?.writeText(code).then(()=> {
+                    event.target.textContent = 'Copied!';
+                    setTimeout(()=>event.target.textContent='Copy', 1500);
+                }, ()=> {
+                    event.target.textContent = 'Copy failed';
+                });
+            });
+        });
+    }
+
+    // Initialize the page
+    renderCards();
+  </script>
+</body>
+</html>
